@@ -212,7 +212,15 @@ class AirCargoProblem(Problem):
         executed.
         """
         # TODO implement (see Russell-Norvig Ed-3 10.2.3  or Russell-Norvig Ed-2 11.2)
-        count = 0
+       # pdb.set_trace();
+        #so we can get the goal total by just counting goal states.
+        #then, check the statemap to see if any goal states are False.
+        #subtract each false goal state from the goal total
+        count = len(self.goal)
+        for goal in self.goal:
+            location = self.state_map.index(goal)
+            if node.state[location] == 'T':
+                count -= 1
         return count
 
 
@@ -324,8 +332,8 @@ def air_cargo_p3() -> AirCargoProblem:
            ]
     init = FluentState(pos, neg)    
     goal = [expr('At(C1,JFK)'),
+            expr('At(C3,JFK)'),
             expr('At(C2,SFO)'),
-            expr('At(C3,SFO)'),
-            ]
+            expr('At(C4,SFO)'),]
 
     return AirCargoProblem(cargos, planes, airports, init, goal)
